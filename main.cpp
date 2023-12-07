@@ -4,36 +4,29 @@
 #include <string>
 using namespace std;
 const int FILE_HEADER_SIZE = sizeof(int);
+int lastOffset(string filename){
 
+};
+int offsetValVar(int lastoffset,int prevlinesize){
+    return lastoffset+prevlinesize+2;
+}
+//int offsetvalFixed(int rnn)
 struct Author {
     string authorId;
     string authorName;
     string authorAddress;
 };
-
 struct Book {
     string ISBN;
     string authorId;
     string bookTitle;
 };
-
 class FileSystem {
 public:
-    void saveAuthorsToFile(const std::vector<Author>& authors, const std::string& filename) {
+    void saveAuthorToFileWithDelimiter(const Author& author,const std::string& filename) {
         ofstream outFile(filename, std::ios::app);
-        if (!outFile.is_open()) {
-            cerr << "Error opening file: " << filename << std::endl;
-            return;
-        }
-
-        for (const auto& author : authors) {
-            saveAuthorToFileWithDelimiter(author, outFile, '|');
-        }
-        outFile.close();
-    }
-    void saveAuthorToFileWithDelimiter(const Author& author, std::ostream& out, char delimiter) {
-        out <<author.authorId.size()<<delimiter<< author.authorId<<delimiter<<author.authorName.size()<< delimiter
-            << author.authorName <<delimiter << author.authorAddress.size()<< delimiter
+        outFile <<author.authorId.size()+author.authorName.size()+author.authorAddress.size()+3<<'|'<< author.authorId<<'|'
+            << author.authorName <<'|'
             << author.authorAddress << endl;
     }
     vector<Author> loadAuthorsFromFile(const std::string& filename) {
@@ -75,31 +68,26 @@ public:
         in.ignore();
         return author;
     }
-
     void saveBooksToFile(const std::vector<Book>& books, const std::string& filename) {
-        ofstream outFile(filename, std::ios::app);  // Open in append mode
-
+        ofstream outFile(filename, std::ios::app);
         if (!outFile.is_open()) {
             std::cerr << "Error opening file: " << filename << std::endl;
             return;
         }
-
         for (const auto& book : books) {
             saveBooksToFileWithDelimiter(book, outFile, '|');
         }
-
         outFile.close();
     }
 
     void saveBooksToFileWithDelimiter(const Book& books, std::ostream& out, char delimiter) {
-        out <<books.ISBN.size()<<delimiter<< books.ISBN<<delimiter<<books.bookTitle.size()<< delimiter
-            << books.bookTitle <<delimiter << books.authorId.size()<< delimiter
+        out <<books.ISBN.size()+books.bookTitle.size()+books.authorId.size()+3<<delimiter<< books.ISBN<<delimiter
+            << books.bookTitle <<delimiter
             << books.authorId << endl;
     }
     vector<Book> loadBooksFromFile(const std::string& filename) {
         vector<Book> loadedBooks;
         ifstream inFile(filename);
-
         if (!inFile.is_open()) {
             std::cerr << "Error opening file: " << filename << std::endl;
             return loadedBooks;
@@ -186,16 +174,16 @@ private:
 
 int main() {
     FileSystem fileSystem;
-    std::vector<Author> authors = {
-            {"A001", "John Doe", "123 Main Street"},
-            {"A002", "Jane Smith", "456 Oak Avenue"}
-    };
-
+//    Author ahmed;
+//    ahmed.authorId="0070";
+//    ahmed.authorAddress="btengan";
+//    ahmed.authorName="ahmed";
+//    fileSystem.saveAuthorToFileWithDelimiter(ahmed,"authors.txt");
     std::vector<Book> books = {
             {"B001", "A001", "The Book Title"},
             {"B002", "A002", "Another Book"}
     };
-    fileSystem.saveAuthorsToFile(authors, "authors.txt");
+//    fileSystem.saveAuthorsToFile(authors, "authors.txt");
     fileSystem.saveBooksToFile(books, "books.txt");
     vector<Author> loadedAuthors = fileSystem.loadAuthorsFromFile("authors.txt");
     vector<Book> loadedBooks = fileSystem.loadBooksFromFile("books.txt");
@@ -207,6 +195,5 @@ int main() {
     for (const auto& book : loadedBooks) {
         cout << "Title: " << book.bookTitle << ", ISBN: " << book.ISBN << std::endl;
     }
-
     return 0;
 }
