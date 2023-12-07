@@ -11,10 +11,20 @@ int offsetValVar(int lastoffset,int prevlinesize){
     return lastoffset+prevlinesize+2;
 }
 //int offsetvalFixed(int rnn)
-struct Author {
-    string authorId;
-    string authorName;
-    string authorAddress;
+class Author {
+    public:
+        string authorId;
+        string authorName;
+        string authorAddress;
+        Author(string authorId,string authorName,string authorAddress){
+            this->authorId = authorId;
+            this->authorName = authorName;
+            this->authorAddress = authorAddress;
+
+        }
+        Author(){
+            
+        }
 };
 struct Book {
     string ISBN;
@@ -68,61 +78,8 @@ public:
         in.ignore();
         return author;
     }
-    void saveBooksToFile(const std::vector<Book>& books, const std::string& filename) {
-        ofstream outFile(filename, std::ios::app);
-        if (!outFile.is_open()) {
-            std::cerr << "Error opening file: " << filename << std::endl;
-            return;
-        }
-        for (const auto& book : books) {
-            saveBooksToFileWithDelimiter(book, outFile, '|');
-        }
-        outFile.close();
-    }
 
-    void saveBooksToFileWithDelimiter(const Book& books, std::ostream& out, char delimiter) {
-        out <<books.ISBN.size()+books.bookTitle.size()+books.authorId.size()+3<<delimiter<< books.ISBN<<delimiter
-            << books.bookTitle <<delimiter
-            << books.authorId << endl;
-    }
-    vector<Book> loadBooksFromFile(const std::string& filename) {
-        vector<Book> loadedBooks;
-        ifstream inFile(filename);
-        if (!inFile.is_open()) {
-            std::cerr << "Error opening file: " << filename << std::endl;
-            return loadedBooks;
-        }
 
-        while (inFile >> std::ws && !inFile.eof()) {
-            loadedBooks.push_back(loadBookFromFileWithDelimiter(inFile, '|'));
-        }
-
-        inFile.close();
-        return loadedBooks;
-    }
-
-    Book loadBookFromFileWithDelimiter(std::istream& in, char delimiter) {
-        Book book;
-        int ISBNSize;
-        in >> ISBNSize;
-        in.ignore();
-        book.ISBN.resize(ISBNSize);
-        in.read(&book.ISBN[0], ISBNSize);
-        in.ignore();
-        int bookTitleSize;
-        in >> bookTitleSize;
-        in.ignore();
-        book.bookTitle.resize(bookTitleSize);
-        in.read(&book.bookTitle[0], bookTitleSize);
-        in.ignore();
-        int authorIdSize;
-        in >> authorIdSize;
-        in.ignore();
-        book.authorId.resize(authorIdSize);
-        in.read(&book.authorId[0], authorIdSize);
-        in.ignore();
-        return book;
-    }
 private:
     void saveAuthorToFile(const Author& author, std::ostream& out) {
         saveStringWithLength(author.authorId, out);
@@ -131,11 +88,8 @@ private:
         out.put('|'); // Delimiter
     }
 
-    Author loadAuthorFromFile(std::istream& in) {
-        Author author;
-        author.authorId = loadStringWithLength(in);
-        author.authorName = loadStringWithLength(in);
-        author.authorAddress = loadStringWithLength(in);
+    Author* loadAuthorFromFile(std::istream& in) {
+        Author* author = new Author(loadStringWithLength(in), loadStringWithLength(in),loadStringWithLength(in));
         in.ignore(); // Ignore the delimiter
         return author;
     }
@@ -174,26 +128,21 @@ private:
 
 int main() {
     FileSystem fileSystem;
-//    Author ahmed;
-//    ahmed.authorId="0070";
-//    ahmed.authorAddress="btengan";
-//    ahmed.authorName="ahmed";
-//    fileSystem.saveAuthorToFileWithDelimiter(ahmed,"authors.txt");
-    std::vector<Book> books = {
-            {"B001", "A001", "The Book Title"},
-            {"B002", "A002", "Another Book"}
+    vector<Author*> demoAuthers = {
+        new Author("001","hatem","maadi"),
+        new Author("002","tolba","maadi"),
+        new Author("003","ahmed","maadi"),
+        new Author("004","mohamed","maadi"),
     };
-//    fileSystem.saveAuthorsToFile(authors, "authors.txt");
-    fileSystem.saveBooksToFile(books, "books.txt");
+    for(auto a : demoAuthers){
+        fileSystem.saveAuthorToFileWithDelimiter(*a,"authors.txt");
+    }
     vector<Author> loadedAuthors = fileSystem.loadAuthorsFromFile("authors.txt");
-    vector<Book> loadedBooks = fileSystem.loadBooksFromFile("books.txt");
+
     cout << "Loaded Authors:\n";
     for (const auto& author : loadedAuthors) {
         std::cout << "Author: " << author.authorName << ", Address: " << author.authorAddress << std::endl;
     }
-    cout << "\nLoaded Books:\n";
-    for (const auto& book : loadedBooks) {
-        cout << "Title: " << book.bookTitle << ", ISBN: " << book.ISBN << std::endl;
-    }
+
     return 0;
 }
