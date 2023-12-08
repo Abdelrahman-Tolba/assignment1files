@@ -182,7 +182,7 @@ public:
                 if(!onlyName){
                     cout << oldAddress << " ";
                 }
-
+                cout << endl;
                 file.close();
             }
             else
