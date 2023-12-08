@@ -18,7 +18,6 @@ public:
     }
 
     ~PrimaryIndex() {
-        cout << "askcaslcmasca" << endl;
         saveDataToFile();
     }
 

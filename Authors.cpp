@@ -130,12 +130,10 @@ public:
 
             if (file.is_open())
             {
-                // Move the file pointer to the corresponding offset
                 file.seekg(getAuthorOffset);
                 cout << getAuthorOffset << endl;
-
                 string authorData;
-                getline(file, authorData);
+                getline(file,authorData);
                 stringstream ss(authorData);
                 string oldSize;
                 string oldId;

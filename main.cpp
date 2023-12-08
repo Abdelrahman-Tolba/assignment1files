@@ -1,24 +1,111 @@
 #include "Books.cpp"
-
-
 using namespace std;
 const int FILE_HEADER_SIZE = sizeof(int);
-int main() {
-    vector<Book*> demoBooks = {
-        new Book("s0055","t1","0055"),
-        new Book("s0065","t2","0065"),
-        new Book("s0075","t3","0075"),
-        new Book("s0095","t4","0095"),
-        new Book("s519","t5","519"),
-        new Book("s518","t6","518"),
-    };
-    BooksManager* bookManager = new BooksManager();
-    for(auto b: demoBooks){
-        bookManager->saveBookToFileWithDelimiter(*b);
+void displayMenu() {
+    AuthorsManager manager;
+    BooksManager bookManager;
+    Author author;
+    Book book;
+    while (true) {
+        cout << "Library Management System\n";
+        cout << "1. Add New Author\n";
+        cout << "2. Add New Book\n";
+        cout << "3. Update Author Name (Author ID)\n";
+        cout << "4. Update Book Title (ISBN)\n";
+        cout << "5. Delete Book (ISBN)\n";
+        cout << "6. Delete Author (Author ID)\n";
+        cout << "7. Print Author (Author ID)\n";
+        cout << "8. Print Book (ISBN)\n";
+        cout << "9. Write Query\n";
+        cout << "10. Exit\n";
+
+        int choice;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: {
+                Author author;
+                cout << "Enter Author name: ";
+                cin >> author.authorName;
+                cout << "Enter Author ID: ";
+                cin >> author.authorId;
+                cout << "Enter Author address: ";
+                cin >> author.authorAddress;
+                manager.saveAuthorToFileWithDelimiter(author);
+                break;
+            }
+            case 2: {
+                Book book;
+                cout << "Enter Book ISBN: ";
+                cin >> book.isbn;
+                cout << "Enter Book Title: ";
+                cin >> book.title;
+                cout << "Enter Author ID: ";
+                cin >> book.authorId;
+                bookManager.saveBookToFileWithDelimiter(book);
+                break;
+            }
+            case 3: {
+                Author author;
+                cout << "Enter your ID: ";
+                cin >> author.authorId;
+                cout << "Enter Author new name: ";
+                cin >> author.authorName;
+                manager.updateName(author.authorId, author.authorName);
+                break;
+            }
+            case 4: {
+                Book book;
+                cout << "Enter Book ISBN: ";
+                cin >> book.isbn;
+                cout << "Enter book new Title: ";
+                cin >> book.title;
+                manager.updateName(book.isbn, book.title);
+                break;
+            }
+            case 5: {
+                Book book;
+                cout << "Enter Book ISBN: ";
+                cin >> book.isbn;
+                bookManager.deleteBook(book.isbn);
+                break;
+            }
+            case 6: {
+                Author author;
+                cout << "Enter your ID: ";
+                cin >> author.authorId;
+                manager.deleteAuthor(author.authorId);
+                break;
+            }
+            case 7: {
+                Author author;
+                cout << "Enter your ID: ";
+                cin >> author.authorId;
+                manager.printAuthorData(author.authorId);
+                break;
+            }
+            case 8: {
+                Book book;
+                cout << "Enter Book ISBN: ";
+                cin >> book.isbn;
+                bookManager.printBookData(book.isbn);
+                break;
+            }
+            case 9:
+                cout << "Write Query\n";
+                // Add your query logic here
+                break;
+            case 10:
+                cout << "Exiting...\n";
+                exit(0);
+            default:
+                cout << "Invalid choice. Please enter a valid option.\n";
+        }
     }
-    bookManager->updateName("s0065","ahmedsss");
-    bookManager->updateName("s0095","tolb");
-    bookManager->deleteBook("s0055");
-    delete bookManager;
+}
+
+int main() {
+    displayMenu();
     return 0;
 }
