@@ -174,13 +174,13 @@ public:
                 getline(ss, oldSize, '|');
                 getline(ss, oldId, '|');
                 getline(ss, oldName, '|');
-                getline(ss, oldAddress, '|');
+                getline(ss, oldAddress, '_');
                 if(!onlyName){
-                    cout << oldId << " " << endl;
+                    cout << oldId << " ";
                 }
-                    cout << oldName << " " << endl;
+                    cout << oldName << " ";
                 if(!onlyName){
-                    cout << oldAddress << " " << endl;
+                    cout << oldAddress << " ";
                 }
 
                 file.close();
