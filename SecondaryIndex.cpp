@@ -72,7 +72,7 @@ public:
 
     ~SecondaryIndex()
     {
-        cout << "askcaslcmasca" << endl;
+        // cout << "askcaslcmasca" << endl;
         saveDataToFile();
     }
 
@@ -151,4 +151,5 @@ public:
         cout << name << " , " << id;
         secondaryKeyToHead[name]->removeItem(id);
     }
+
 };

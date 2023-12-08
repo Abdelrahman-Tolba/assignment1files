@@ -150,7 +150,7 @@ public:
             }
     }
     }
-    void printAuthorData(string id)
+    void printAuthorData(string id,bool onlyName = false)
     {
         int getAuthorOffset = primaryIndex->getOffsetById(id);
 
@@ -166,18 +166,22 @@ public:
                 // Read the author data
                 string authorData;
                 getline(file, authorData);
-
-                // Process the author data by ignoring delimiters
-                size_t pos = 0;
-                while ((pos = authorData.find_first_of("|_")) != string::npos)
-                {
-                    // Print or process the author data without the delimiter
-                    cout << authorData.substr(0, pos) << " ";
-                    authorData.erase(0, pos + 1);
+                stringstream ss(authorData);
+                string oldSize;
+                string oldId;
+                string oldName;
+                string oldAddress;
+                getline(ss, oldSize, '|');
+                getline(ss, oldId, '|');
+                getline(ss, oldName, '|');
+                getline(ss, oldAddress, '|');
+                if(!onlyName){
+                    cout << oldId << " " << endl;
                 }
-
-                // Print or process the remaining author data after the last delimiter
-                cout << authorData << endl;
+                    cout << oldName << " " << endl;
+                if(!onlyName){
+                    cout << oldAddress << " " << endl;
+                }
 
                 file.close();
             }
@@ -188,7 +192,12 @@ public:
         }
         else
         {
-            cerr << "Error: Unable to get offset for ID " << id << endl;
+            cerr << "Error: Unable to get offset for ID " << id.size() << endl;
+        }
+    }
+    void getAllAuthorsWithName(string name,bool onlyName = false){
+        for(string id : secondaryIndex->getIdsFromName(name)){
+            printAuthorData(id,onlyName);
         }
     }
     ~AuthorsManager()

@@ -1,11 +1,14 @@
-#include "Books.cpp"
+#include "QueryProcessing.cpp"
 using namespace std;
 const int FILE_HEADER_SIZE = sizeof(int);
 void displayMenu() {
     AuthorsManager* manager = new AuthorsManager();
     BooksManager* bookManager = new BooksManager();
+    QueryProcessor* proccessor = new QueryProcessor(manager,bookManager);
+
     Author author;
     Book book;
+    string query;
     while (true) {
         cout << "Library Management System\n";
         cout << "1. Add New Author\n";
@@ -94,6 +97,10 @@ void displayMenu() {
             }
             case 9:
                 cout << "Write Query\n";
+                cin.ignore();
+
+                getline(cin,query);
+                proccessor->processQuery(query);
                 // Add your query logic here
                 break;
             case 10:

@@ -1,3 +1,2 @@
--1_______|70___
-18|2412|cascas|sacas
-27|lsamclsac|samcaskc|cascasc
+-1_______|36___
+15|001|ascasc|002

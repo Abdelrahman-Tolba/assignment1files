@@ -41,6 +41,16 @@ int getlastOffset(string filename){
     }
     return stringToNumber(num);
 }
+std::string trim(const std::string& str) {
+    size_t start = str.find_first_not_of(" \t\n\r;");
+    size_t end = str.find_last_not_of(" \t\n\r;");
+
+    if (start == std::string::npos || end == std::string::npos) {
+        return "";  // String contains only whitespace
+    }
+
+    return str.substr(start, end - start + 1);
+}
 void updatelastOffset(string filename,int lastOffset){
     fstream inFile(filename);
     int start = 10;

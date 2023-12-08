@@ -185,7 +185,11 @@ public:
             cerr << "Error: Unable to get offset for ID " << id << endl;
         }
     }
-
+    void getAllAuthorsWithAuthorId(string name){
+        for(string id : secondaryIndex->getIdsFromName(name)){
+            printBookData(id);
+        }
+    }
 
     ~BooksManager()
     {
