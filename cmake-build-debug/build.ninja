@@ -55,6 +55,12 @@ build CMakeFiles/assignment1files.dir/main.cpp.obj: CXX_COMPILER__assignment1fil
   OBJECT_DIR = CMakeFiles\assignment1files.dir
   OBJECT_FILE_DIR = CMakeFiles\assignment1files.dir
 
+build CMakeFiles/assignment1files.dir/QueryProcessing.cpp.obj: CXX_COMPILER__assignment1files_Debug C$:/Users/abdel/CLionProjects/assignment1files/QueryProcessing.cpp || cmake_object_order_depends_target_assignment1files
+  DEP_FILE = CMakeFiles\assignment1files.dir\QueryProcessing.cpp.obj.d
+  FLAGS = -g -std=gnu++14
+  OBJECT_DIR = CMakeFiles\assignment1files.dir
+  OBJECT_FILE_DIR = CMakeFiles\assignment1files.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target assignment1files
@@ -63,7 +69,7 @@ build CMakeFiles/assignment1files.dir/main.cpp.obj: CXX_COMPILER__assignment1fil
 #############################################
 # Link the executable assignment1files.exe
 
-build assignment1files.exe: CXX_EXECUTABLE_LINKER__assignment1files_Debug CMakeFiles/assignment1files.dir/main.cpp.obj
+build assignment1files.exe: CXX_EXECUTABLE_LINKER__assignment1files_Debug CMakeFiles/assignment1files.dir/main.cpp.obj CMakeFiles/assignment1files.dir/QueryProcessing.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\assignment1files.dir

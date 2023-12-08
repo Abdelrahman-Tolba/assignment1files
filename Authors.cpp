@@ -161,14 +161,23 @@ public:
             if (file.is_open())
             {
                 // Move the file pointer to the corresponding offset
-                file.seekg(getAuthorOffset);
+                file.seekg(getAuthorOffset + 2);
 
                 // Read the author data
                 string authorData;
                 getline(file, authorData);
 
-                // Print or process the author data as needed
-                cout << "Author Data for ID " << id << ": " << authorData << endl;
+                // Process the author data by ignoring delimiters
+                size_t pos = 0;
+                while ((pos = authorData.find_first_of("|_")) != string::npos)
+                {
+                    // Print or process the author data without the delimiter
+                    cout << authorData.substr(0, pos) << " ";
+                    authorData.erase(0, pos + 1);
+                }
+
+                // Print or process the remaining author data after the last delimiter
+                cout << authorData << endl;
 
                 file.close();
             }

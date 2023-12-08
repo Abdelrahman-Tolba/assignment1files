@@ -3,4 +3,4 @@ project(assignment1files)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(assignment1files main.cpp)
+add_executable(assignment1files main.cpp QueryProcessing.cpp)

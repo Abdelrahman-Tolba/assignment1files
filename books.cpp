@@ -155,14 +155,23 @@ public:
             if (file.is_open())
             {
                 // Move the file pointer to the corresponding offset
-                file.seekg(getBookOffset);
+                file.seekg(getBookOffset + 2);
 
                 // Read the book data
-                string authorData;
-                getline(file, authorData);
+                string bookData;
+                getline(file, bookData);
 
-                // Print or process the book data as needed
-                cout << "Book Data for ID " << id << ": " << authorData << endl;
+                // Process the book data by ignoring delimiters
+                size_t pos = 0;
+                while ((pos = bookData.find_first_of("|_")) != string::npos)
+                {
+                    // Print or process the book data without the delimiter
+                    cout << bookData.substr(0, pos) << " ";
+                    bookData.erase(0, pos + 1);
+                }
+
+                // Print or process the remaining book data after the last delimiter
+                cout << bookData << endl;
 
                 file.close();
             }
@@ -176,6 +185,8 @@ public:
             cerr << "Error: Unable to get offset for ID " << id << endl;
         }
     }
+
+
     ~BooksManager()
     {
         delete primaryIndex;
