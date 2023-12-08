@@ -2,8 +2,8 @@
 using namespace std;
 const int FILE_HEADER_SIZE = sizeof(int);
 void displayMenu() {
-    AuthorsManager manager;
-    BooksManager bookManager;
+    AuthorsManager* manager = new AuthorsManager();
+    BooksManager* bookManager = new BooksManager();
     Author author;
     Book book;
     while (true) {
@@ -32,7 +32,7 @@ void displayMenu() {
                 cin >> author.authorId;
                 cout << "Enter Author address: ";
                 cin >> author.authorAddress;
-                manager.saveAuthorToFileWithDelimiter(author);
+                manager->saveAuthorToFileWithDelimiter(author);
                 break;
             }
             case 2: {
@@ -43,7 +43,7 @@ void displayMenu() {
                 cin >> book.title;
                 cout << "Enter Author ID: ";
                 cin >> book.authorId;
-                bookManager.saveBookToFileWithDelimiter(book);
+                bookManager->saveBookToFileWithDelimiter(book);
                 break;
             }
             case 3: {
@@ -52,7 +52,7 @@ void displayMenu() {
                 cin >> author.authorId;
                 cout << "Enter Author new name: ";
                 cin >> author.authorName;
-                manager.updateName(author.authorId, author.authorName);
+                manager->updateName(author.authorId, author.authorName);
                 break;
             }
             case 4: {
@@ -61,35 +61,35 @@ void displayMenu() {
                 cin >> book.isbn;
                 cout << "Enter book new Title: ";
                 cin >> book.title;
-                manager.updateName(book.isbn, book.title);
+                manager->updateName(book.isbn, book.title);
                 break;
             }
             case 5: {
                 Book book;
                 cout << "Enter Book ISBN: ";
                 cin >> book.isbn;
-                bookManager.deleteBook(book.isbn);
+                bookManager->deleteBook(book.isbn);
                 break;
             }
             case 6: {
                 Author author;
                 cout << "Enter your ID: ";
                 cin >> author.authorId;
-                manager.deleteAuthor(author.authorId);
+                manager->deleteAuthor(author.authorId);
                 break;
             }
             case 7: {
                 Author author;
                 cout << "Enter your ID: ";
                 cin >> author.authorId;
-                manager.printAuthorData(author.authorId);
+                manager->printAuthorData(author.authorId);
                 break;
             }
             case 8: {
                 Book book;
                 cout << "Enter Book ISBN: ";
                 cin >> book.isbn;
-                bookManager.printBookData(book.isbn);
+                bookManager->printBookData(book.isbn);
                 break;
             }
             case 9:
@@ -98,11 +98,15 @@ void displayMenu() {
                 break;
             case 10:
                 cout << "Exiting...\n";
+                delete manager;
+                delete bookManager;
                 exit(0);
             default:
                 cout << "Invalid choice. Please enter a valid option.\n";
         }
     }
+    delete manager;
+    delete bookManager;
 }
 
 int main() {
