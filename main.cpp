@@ -64,7 +64,7 @@ void displayMenu() {
                 cin >> book.isbn;
                 cout << "Enter book new Title: ";
                 cin >> book.title;
-                manager->updateName(book.isbn, book.title);
+                bookManager->updateName(book.isbn, book.title);
                 break;
             }
             case 5: {
